@@ -1,12 +1,12 @@
 const cardsArr = [
-    {imageName: "img1", imagePath: "img/img1.png"},
-    {imageName: "img2", imagePath: "img/img2.png"},
+    {imageName: "img1", imagePath: "img/img1.jpg"},
+    {imageName: "img2", imagePath: "img/img2.jpg"},
     {imageName: "img3", imagePath: "img/img3.png"},
     {imageName: "img4", imagePath: "img/img4.png"},
     {imageName: "img5", imagePath: "img/img5.png"},
     {imageName: "img6", imagePath: "img/img6.png"},
-    {imageName: "img1", imagePath: "img/img1.png"},
-    {imageName: "img2", imagePath: "img/img2.png"},
+    {imageName: "img1", imagePath: "img/img1.jpg"},
+    {imageName: "img2", imagePath: "img/img2.jpg"},
     {imageName: "img3", imagePath: "img/img3.png"},
     {imageName: "img4", imagePath: "img/img4.png"},
     {imageName: "img5", imagePath: "img/img5.png"},
@@ -19,9 +19,21 @@ cardsArr.sort( function(){
 console.log(cardsArr);
 
 const span = document.querySelector("#span");
-const cardsDiv = document.querySelector("#cardsDiv");
-const messageDiv = document.querySelector("#messageDiv");
+const cardsDiv = document.querySelector(".cardsDiv");
+const messageDiv = document.querySelector(".messageDiv");
 
+function flipCard() {
+    let cardId = this.getAttribute("id");
+
+    cardsChosenArr.push(cardsArr[cardId].imageName);
+    cardsChosenArrId.push(cardId);
+
+    this.setAttribute("src", cardsArr[cardId].imagePath);
+
+    if (cardsChosenArr.length === 2) {
+        setTimeout(checkForMatch, 1000);
+    }
+}
 
 function createBoard () {
     for(let i = 0; i < cardsArr.length; i++) {
@@ -46,9 +58,9 @@ function checkForMatch(){
     const id2 = cardsChosenArrId [1];
 
     if (cardsChosenArr[0] === cardsChosenArr[1] && id1 !== id2) {
-        massageDiv.innerHTML = "Match found!"
-        cards[id1].setAttribute("src", "img/gal.png");
-        cards[id2].setAttribute("src", "img/gal.png");
+        messageDiv.innerHTML = "Match found!";
+        cards[id1].setAttribute("src", "img/gal_blank.png");
+        cards[id2].setAttribute("src", "img/gal_blank.png");
 
         cards[id1].removeEventListener("click", flipCard);
         cards[id2].removeEventListener("click", flipCard);
@@ -56,9 +68,9 @@ function checkForMatch(){
         nOfOpenedCardsArr.push(cardsChosenArr);
     }
     else {
-        cards[id1].setAttribute("src", "img/gal_blank.png");
-        cards[id2].setAttribute("src", "img/gal_blank.png");
-        massageDiv.innerHTML = "Chosen the same card or cards do not match, select another!";
+        cards[id1].setAttribute("src", "img/gal.png"); 
+        cards[id2].setAttribute("src", "img/gal.png"); 
+        messageDiv.innerHTML = "Chosen the same card or cards do not match, select another!"; 
     }
 
     cardsChosenArr = [];
@@ -68,16 +80,5 @@ function checkForMatch(){
     if (nOfOpenedCardsArr.length === cardsArr.length / 2) {
         messageDiv.innerHTML = "You won!"
     }
-    function flipCsrd() {
-        let cardId = this.getAttribute("id");
-
-        cardsChosenArr.push(cardsArr[cardId].imageName);
-        cardsChosenArrId.push(cardId);
-
-        this.setAttribute("src", cardsArr[cardId].imagePath);
-
-        if (cardsChosenArr.length === 2) {
-            setTimeout(checkForMatch, 1000);
-        }
-    }
+    
 }
